@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+	<head>
+		<title>Tcrouzet diff forked from wikEd diff</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!--script src="https://en.wikipedia.org/w/index.php?title=User:Cacycle/diff.js&action=raw&ctype=text/javascript"></script-->
+		<!--script src="file:///C:/xampp/htdocs/wikEd/diff.js"></script-->
+		<script src="diff.js"></script>
+		<script src="wikEd-diff-tool.js?A"></script>
+		<link rel="stylesheet" href="wikEd-diff-tool.css" type="text/css" />
+	</head>
+
+	<body>
+		<div class="main">
+
+			<div class="header">
+
+				<div class="headerLeft">
+					<div class="headerItem">
+						<div class="logo">
+							<div class="logoTitle">
+								trouzet diff
+							</div>
+							<div class="logoText">
+								Forked wikEd diff
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="headerCenter">
+					<div class="headerItem">
+						<div class="heading">
+							<div class="headingTitle">
+								Some changes in the lib to feat with <a href="https://chat.openai.com/g/g-mvRchQNzO-multilingual-proofreader">my proofreader GPTs</a>
+							</div>
+							<div class="headingText">
+								 Customizable • Unicode and multilingual support • Optimized for Wikipedia • Commented code • Public domain
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="headerRight">
+					<div class="headerItem">
+						<div class="links">
+							<ul>
+								<li><a href="https://en.wikipedia.org/wiki/User:Cacycle/wikEdDiff">Project page</a></li>
+								<li><a href="https://en.wikipedia.org/wiki/User_talk:Cacycle/wikEdDiff">Discussion</a></li>
+								<li><a href="https://en.wikipedia.org/w/index.php?title=User:Cacycle/diff.js&action=raw&ctype=text/javascript">Source code</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="content">
+
+				<div class="contentLeft">
+					<div class="contentLeftTop">
+						<div class="contentItemTitle">Old version
+						</div>
+						<textarea class="contentItemText version" id="old" placeholder="Paste text or drop files"></textarea>
+					</div>
+					<div class="contentLeftBottom">
+						<div class="contentItemTitle">New version
+						</div>
+						<textarea class="contentItemText version" id="new" placeholder="Paste text or drop files"></textarea>
+					</div>
+				</div>
+
+				<div class="contentRight">
+					<div class="contentItemTitle">Comparison (diff)
+					</div>
+					<div class="contentItemText">
+						<div class="diff" id="diff">
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="footer">
+
+				<div class="footerLeft">
+					<div class="footerItemTitle">Options
+					</div>
+					<div class="footerItemText">
+						<div class="options">
+							<ul>
+								<li><input type="checkbox" id="unlinkBlocks" checked> Reject blocks if too short and common</li>
+								<li><input type="text" id="blockMinLength" value="3"> Words: reject blocks if shorter</li>
+								<li><input type="text" id="recursionMax" value="5"> Maximum rejection cycles</li>
+								<li><input type="checkbox" id="repeatedDiff" checked> Repeated diff</li>
+								<li><input type="checkbox" id="stripTrailingNewline"> Strip trailing newline</li>
+								<li><input type="checkbox" id="debug"> Show debug infos (browser console)</li>
+								<li><input type="checkbox" id="timer"> Show timing (browser console)</li>
+								<li><input type="checkbox" id="unitTesting"> Run unit tests (browser console)</li>
+							</ul>
+						</div>
+						<div class="options">
+							<ul>
+								<li><input type="checkbox" id="fullDiff"> Show un-clipped output</li>
+								<li><input type="checkbox" id="showBlockMoves" checked> Show block moves</li>
+								<li><input type="checkbox" id="coloredBlocks"> Display blocks in differing colors</li>
+								<li><input type="checkbox" id="charDiff" checked> Character-level resolution</li>
+								<li><input type="checkbox" id="recursiveDiff" checked> Recursive diff</li>
+								<li><input type="text" id="unlinkMax" value="10"> Maximum recursion depth </li>
+								<li><input type="checkbox" id="noUnicodeSymbols"> Non-UniCode symbols</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="footerCenter">
+					<div class="footerItemTitle">Compare
+					</div>
+					<div class="footerItemText">
+						<div class="compare">
+							<button class="button" onclick="WikEdDiffTool.diff();">Compare</button>
+						</div>
+					</div>
+					<div class="footerItemText">
+						<div class="example">
+							<button class="button" onclick="WikEdDiffTool.clear();">Clear</button>
+						</div>
+						<div class="example">
+							<button class="button" onclick="WikEdDiffTool.example();">Example</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="footerRight">
+					<div class="footerItemTitle">Legend
+					</div>
+					<div class="footerItemText">
+						<div class="legend">
+							<ul>
+								<li><span class="wikEdDiffMarkRight" title="Moved block" id="wikEdDiffMark999" onmouseover="wikEdDiffBlockHandler(undefined, this, 'mouseover');"></span> Original block position</li>
+								<li><span title="+" class="wikEdDiffInsert">Inserted<span class="wikEdDiffSpace"><span class="wikEdDiffSpaceSymbol"></span> </span>text<span class="wikEdDiffNewline"> </span></span></li>
+								<li><span title="−" class="wikEdDiffDelete">Deleted<span class="wikEdDiffSpace"><span class="wikEdDiffSpaceSymbol"></span> </span>text<span class="wikEdDiffNewline"> </span></span></li>
+								<li><span class="wikEdDiffBlockLeft" title="◀" id="wikEdDiffBlock999" onmouseover="wikEdDiffBlockHandler(undefined, this, 'mouseover');">Moved<span class="wikEdDiffSpace"><span class="wikEdDiffSpaceSymbol"></span> </span>block<span class="wikEdDiffNewline"> </span></span></li>
+								<li><span class="newlineSymbol">¶</span> Newline <span class="spaceSymbol">·</span> Space <span class="tabSymbol">→</span> Tab</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</body>
+</html>
