@@ -124,9 +124,16 @@ WikEdDiffTool.diff = function() {
 	// Replace straight apostrophes and spaces
 	oldString = oldString.replace(/'/g, "’");
 	oldString = oldString.replace(/ /g, " ");
-	
+	oldString = oldString.replace(/\.{3}/g, "…");
+	//oldString = oldString.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1");
+	oldString = oldString.replace(/\[([^\]]+)]\([^)]*\)/g, "$1");
+	oldString = oldString.replace(/[\[\]]/g, "");
+
 	newString = newString.replace(/'/g, "’");
 	newString = newString.replace(/ /g, " ");
+	newString = newString.replace(/\.{3}/g, "…");
+	newString = newString.replace(/\[([^\]]+)]\([^)]*\)/g, "$1");
+	newString = newString.replace(/[\[\]]/g, "");
 
 	var wikEdDiff = new WikEdDiff();
 	var diffHtml = wikEdDiff.diff(oldString, newString);
